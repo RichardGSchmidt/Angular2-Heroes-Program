@@ -9,28 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var stock_heros_1 = require('./stock-heros');
-var HeroService = (function () {
-    function HeroService() {
+var hero_service_1 = require('./hero.service');
+var DashboardComponent = (function () {
+    function DashboardComponent(heroService) {
+        this.heroService = heroService;
+        this.heroes = [];
     }
-    HeroService.prototype.getHeroes = function () {
-        return Promise.resolve(stock_heros_1.HEROES);
-    };
-    HeroService.prototype.getHero = function (id) {
-        return this.getHeroes()
-            .then(function (heroes) { return heroes.find(function (hero) { return hero.id === id; }); });
-    };
-    HeroService.prototype.getHeroesSlowly = function () {
+    DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        return new Promise(function (resolve) {
-            setTimeout(function () { return resolve(_this.getHeroes()); }, 2000);
-        });
+        this.heroService.getHeroes()
+            .then(function (heroes) { return _this.heroes = heroes.slice(1, 5); });
     };
-    HeroService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], HeroService);
-    return HeroService;
+    DashboardComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'my-dashboard',
+            templateUrl: './dashboard.component.html',
+        }), 
+        __metadata('design:paramtypes', [hero_service_1.HeroService])
+    ], DashboardComponent);
+    return DashboardComponent;
 }());
-exports.HeroService = HeroService;
-//# sourceMappingURL=hero.service.js.map
+exports.DashboardComponent = DashboardComponent;
+//# sourceMappingURL=dashboard.component.js.map
